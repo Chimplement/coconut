@@ -24,4 +24,4 @@ putstr:
 message: db "Hello, world!", 0
 
 times 510 - ($-$$) db 0
-dw 0xaa55 ; magic number
+magic: dw 0xaa55
