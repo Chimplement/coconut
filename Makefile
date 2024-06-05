@@ -16,7 +16,7 @@ ERROR	= \x1b[1;31m
 END		= \x1b[0m
 
 # targets
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re run
 
 all: $(NAME)
 	@printf '$(INFO)Done making $(NAME)$(END)\n'
@@ -27,6 +27,9 @@ fclean: clean
 	@rm -f $(NAME)
 
 re: fclean all
+
+run: all
+	qemu-system-x86_64 -drive format=raw,file=$(NAME)
 
 $(NAME): $(SRC)
 	@$(ASM) $(ASM_FLAGS) -o $(NAME) $(SRC)
