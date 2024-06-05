@@ -16,7 +16,7 @@ ERROR	= \x1b[1;31m
 END		= \x1b[0m
 
 # targets
-.PHONY: all clean fclean all
+.PHONY: all clean fclean re
 
 all: $(NAME)
 	@printf '$(INFO)Done making $(NAME)$(END)\n'
