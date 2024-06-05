@@ -1,5 +1,8 @@
 bits 16
 org 0x7c00
+    mov ax, 3 ; set video mode 3
+    int 0x10 ; video services
+
     mov si, message
     call putstr
 
