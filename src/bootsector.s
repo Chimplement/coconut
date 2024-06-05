@@ -3,7 +3,7 @@ org 0x7c00
     mov ax, 3 ; set video mode 3
     int 0x10 ; video services
 
-    mov si, message
+    mov si, loading_msg
     call putstr
 
     cli
@@ -21,7 +21,7 @@ putstr:
 .ret:
     ret
 
-message: db "Hello, world!", 0
+loading_msg: db "bootport is loading...", 0
 
 times 510 - ($-$$) db 0
 magic: dw 0xaa55
