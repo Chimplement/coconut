@@ -11,7 +11,7 @@ putstr:
     mov ah, 0x0e ; write
 .loop:
     lodsb
-    cmp al,0 ; end of string
+    cmp al, 0 ; end of string
     jz .ret
 
     int 0x10 ; video services
@@ -19,7 +19,7 @@ putstr:
 .ret:
     ret
 
-message: db "Hello, world!",0
+message: db "Hello, world!", 0
 
 times 510 - ($-$$) db 0
 dw 0xaa55 ; magic number
