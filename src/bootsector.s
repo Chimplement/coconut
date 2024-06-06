@@ -1,5 +1,8 @@
 bits 16
 org 0x7c00
+    mov bp, -1 ; init stack
+    mov sp, bp
+
     mov ax, 3 ; set video mode 3
     int 0x10 ; video services
 
