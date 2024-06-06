@@ -1,11 +1,16 @@
 bits 16
-org 0x7c00
+
+disk: equ 0x0000
+
+org 0x7c00 ; entry point
     jmp 0x0000:boot ; init code segment
 boot:
     mov ax, 0x0000
     mov ds, ax ; init data segment
     mov ax, 0x1000
     mov ss, ax ; init stack segment
+
+    mov [disk], dl ; save boot disk id
 
     mov sp, 0xffff ; init stack pointer
 
