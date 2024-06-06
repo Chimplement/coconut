@@ -19,7 +19,7 @@ boot:
     mov ax, 0x1000 ; destination
     mov es, ax
     mov bx, 0x0000
-    call read_sector
+    call read_sector ; read DATASECTOR
 
     mov ax, 3 ; set video mode 3
     int 0x10 ; video services
