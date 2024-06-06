@@ -23,11 +23,11 @@ boot:
     cli
     hlt
 
-putstr:
+putstr: ; si: input_string
     mov ah, 0x0e ; write
 .loop:
     lodsb
-    cmp al, 0 ; end of string
+    cmp al, 0
     jz .ret
 
     int 0x10 ; video services
