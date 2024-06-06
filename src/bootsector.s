@@ -7,7 +7,7 @@ boot:
     mov ax, 0x1000
     mov ss, ax ; init stack segment
 
-    mov sp, -1 ; init stack pointer
+    mov sp, 0xffff ; init stack pointer
 
     mov ax, 3 ; set video mode 3
     int 0x10 ; video services
