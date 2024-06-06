@@ -1,7 +1,13 @@
 bits 16
 org 0x7c00
-    mov bp, -1 ; init stack
-    mov sp, bp
+    jmp 0x0000:boot ; init code segment
+boot:
+    mov ax, 0x0000
+    mov ds, ax ; init data segment
+    mov ax, 0x1000
+    mov ss, ax ; init stack segment
+
+    mov sp, -1 ; init stack pointer
 
     mov ax, 3 ; set video mode 3
     int 0x10 ; video services
