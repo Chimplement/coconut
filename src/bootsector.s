@@ -48,10 +48,10 @@ read_sector:
 ; dh: head
 ; cl: sector
 ; es:bx: destination
-    mov ah, 0x2    ; read sectors
-    mov al, 1      ; sector count
+    mov ah, 0x2 ; read sectors
+    mov al, 1 ; sector count
     mov dl, [disk]
-    int 0x13
+    int 0x13 ; low level disk services
     ret
 
 times 510 - ($-$$) db 0
