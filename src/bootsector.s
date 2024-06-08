@@ -1,13 +1,14 @@
 bits 16
-org 0x7c00 ; entry point
+%define entry 0x7c00
+org entry
 
 struc boot_data
   .disk resw 1
 endstruc
 
-section BOOTSECTOR start=0x7c00
-    jmp 0x0000:.entry ; init code segment
-.entry:
+section BOOTSECTOR start=entry
+    jmp 0x0000:.next ; init code segment
+.next:
     mov ax, 0x1000
     mov ds, ax ; init data segment
     mov ax, 0x2000
