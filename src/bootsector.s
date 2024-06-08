@@ -1,17 +1,12 @@
 bits 16
 %define ENTRY_POINT 0x7c00
+
 org ENTRY_POINT
-
-struc boot_data
-  .disk resw 1
-endstruc
-
-section BOOTSECTOR start=ENTRY_POINT
     jmp 0x0000:.next ; init code segment
 .next:
-    mov ax, 0x1000
+    mov ax, 0x0000
     mov ds, ax ; init data segment
-    mov ax, 0x2000
+    mov ax, 0x1000
     mov ss, ax ; init stack segment
 
     mov [boot_data.disk], dl ; save boot disk id
@@ -59,8 +54,11 @@ read_sector:
     int 0x13 ; disk services
     ret
 
+loading_msg: db "docking main module...", 0
+
+struc boot_data
+  .disk resw 1
+endstruc
+
 times 510 - ($-$$) db 0
 magic: dw 0xaa55
-
-section DATASECTOR follows=BOOTSECTOR vstart=boot_data_size
-loading_msg: db "bootport is loading...", 0
