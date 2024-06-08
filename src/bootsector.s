@@ -14,6 +14,12 @@ org ENTRY_POINT
 
     mov [boot_disk], dl ; save boot disk id
 
+    mov ax, 3 ; set video mode 3
+    int 0x10 ; video services
+
+    mov si, loading_msg
+    call putstrnl
+
     mov ch, 0 ; cylinder
     mov dh, 0 ; head
     mov cl, 2 ; sector
@@ -21,12 +27,6 @@ org ENTRY_POINT
     mov es, ax
     mov bx, MAIN_MODULE
     call read_sector ; read first sector of main module
-
-    mov ax, 3 ; set video mode 3
-    int 0x10 ; video services
-
-    mov si, loading_msg
-    call putstr
 
     cli
     hlt
@@ -44,6 +44,12 @@ putstr:
 .ret:
     ret
 
+putstrnl:
+    call putstr
+    mov si, newline
+    call putstr
+    ret
+
 read_sector:
 ; ch: cylinder
 ; dh: head
@@ -57,7 +63,8 @@ read_sector:
 
 boot_disk: dw 0x0000
 
-loading_msg: db "docking main module...", 0xA, 0xD, 0x0
+newline: db 0xA, 0xD, 0x0
+loading_msg: db "docking main module...", 0x0
 
 times 510 - ($-$$) db 0
 magic: dw 0xaa55
