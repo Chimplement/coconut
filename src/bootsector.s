@@ -1,12 +1,12 @@
 bits 16
-%define entry 0x7c00
-org entry
+%define ENTRY_POINT 0x7c00
+org ENTRY_POINT
 
 struc boot_data
   .disk resw 1
 endstruc
 
-section BOOTSECTOR start=entry
+section BOOTSECTOR start=ENTRY_POINT
     jmp 0x0000:.next ; init code segment
 .next:
     mov ax, 0x1000
