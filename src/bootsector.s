@@ -2,8 +2,7 @@ bits 16
 org 0x7c00 ; entry point
 
 section BOOTSECTOR start=0x7c00
-    jmp 0x0000:boot ; init code segment
-boot:
+    jmp 0x0000:$ ; init code segment
     mov ax, 0x1000
     mov ds, ax ; init data segment
     mov ax, 0x2000
@@ -58,5 +57,5 @@ times 510 - ($-$$) db 0
 magic: dw 0xaa55
 
 section DATASECTOR follows=BOOTSECTOR vstart=0x0000
-disk: dw 00
+disk: resw 1
 loading_msg: db "bootport is loading...", 0
