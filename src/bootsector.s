@@ -1,14 +1,19 @@
 bits 16
 org 0x7c00 ; entry point
 
+struc boot_data
+  .disk resw 1
+endstruc
+
 section BOOTSECTOR start=0x7c00
-    jmp 0x0000:$ ; init code segment
+    jmp 0x0000:.entry ; init code segment
+.entry:
     mov ax, 0x1000
     mov ds, ax ; init data segment
     mov ax, 0x2000
     mov ss, ax ; init stack segment
 
-    mov [disk], dl ; save boot disk id
+    mov [boot_data.disk], dl ; save boot disk id
 
     mov sp, 0xffff ; init stack pointer
 
@@ -17,7 +22,7 @@ section BOOTSECTOR start=0x7c00
     mov cl, 2 ; sector
     mov ax, 0x1000 ; destination
     mov es, ax
-    mov bx, 0x0000
+    mov bx, boot_data_size
     call read_sector ; read DATASECTOR
 
     mov ax, 3 ; set video mode 3
@@ -49,13 +54,12 @@ read_sector:
 ; es:bx: destination
     mov ah, 0x2 ; read sectors
     mov al, 1 ; sector count
-    mov dl, [disk]
+    mov dl, [boot_data.disk]
     int 0x13 ; disk services
     ret
 
 times 510 - ($-$$) db 0
 magic: dw 0xaa55
 
-section DATASECTOR follows=BOOTSECTOR vstart=0x0000
-disk: resw 1
+section DATASECTOR follows=BOOTSECTOR vstart=boot_data_size
 loading_msg: db "bootport is loading...", 0
