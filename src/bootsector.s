@@ -35,7 +35,7 @@ putstr:
     mov ah, 0x0e ; write
 .loop:
     lodsb
-    cmp al, 0
+    cmp al, 0x0
     jz .ret
 
     int 0x10 ; video services
@@ -54,7 +54,7 @@ read_sector:
     int 0x13 ; disk services
     ret
 
-boot_disk: resw 1
+boot_disk: dw 0x0000
 
 loading_msg: db "docking main module...", 0xA, 0xD, 0x0
 
