@@ -9,7 +9,7 @@ org ENTRY_POINT
     mov ax, 0x1000
     mov ss, ax ; init stack segment
 
-    mov [boot_data.disk], dl ; save boot disk id
+    mov [boot_disk], dl ; save boot disk id
 
     mov sp, 0xffff ; init stack pointer
 
@@ -18,7 +18,7 @@ org ENTRY_POINT
     mov cl, 2 ; sector
     mov ax, 0x1000 ; destination
     mov es, ax
-    mov bx, boot_data_size
+    mov bx, 0x0000
     call read_sector ; read DATASECTOR
 
     mov ax, 3 ; set video mode 3
@@ -50,15 +50,13 @@ read_sector:
 ; es:bx: destination
     mov ah, 0x2 ; read sectors
     mov al, 1 ; sector count
-    mov dl, [boot_data.disk]
+    mov dl, [boot_disk]
     int 0x13 ; disk services
     ret
 
-loading_msg: db "docking main module...", 0
+boot_disk: resw 1
 
-struc boot_data
-  .disk resw 1
-endstruc
+loading_msg: db "docking main module...", 0xA, 0xD, 0x0
 
 times 510 - ($-$$) db 0
 magic: dw 0xaa55
