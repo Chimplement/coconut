@@ -1,5 +1,6 @@
 bits 16
 %define ENTRY_POINT 0x7c00
+%define MAIN_MODULE ENTRY_POINT + 512
 
 org ENTRY_POINT
     jmp 0x0000:.next ; init code segment
@@ -9,17 +10,17 @@ org ENTRY_POINT
     mov ax, 0x1000
     mov ss, ax ; init stack segment
 
-    mov [boot_disk], dl ; save boot disk id
-
     mov sp, 0xffff ; init stack pointer
+
+    mov [boot_disk], dl ; save boot disk id
 
     mov ch, 0 ; cylinder
     mov dh, 0 ; head
     mov cl, 2 ; sector
-    mov ax, 0x1000 ; destination
+    mov ax, cs ; destination
     mov es, ax
-    mov bx, 0x0000
-    call read_sector ; read DATASECTOR
+    mov bx, MAIN_MODULE
+    call read_sector ; read first sector of main module
 
     mov ax, 3 ; set video mode 3
     int 0x10 ; video services
