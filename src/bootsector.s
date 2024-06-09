@@ -18,7 +18,7 @@ org ENTRY_POINT
     int 0x10 ; video services
 
     mov si, loading_msg
-    call putstrnl
+    call putstr
 
     mov ch, 0 ; cylinder
     mov dh, 0 ; head
@@ -27,7 +27,16 @@ org ENTRY_POINT
     mov es, ax
     mov bx, MAIN_MODULE
     call read_sector ; read first sector of main module
+    jnc .cont
+    mov si, failed_msg
+    call putstrnl
+    jmp .hlt
 
+.cont:
+    mov si, newline
+    call putstr
+
+.hlt:
     cli
     hlt
 
@@ -64,6 +73,7 @@ read_sector:
 boot_disk: dw 0x0000
 
 newline: db 0xA, 0xD, 0x0
+failed_msg: db "failed", 0x0
 loading_msg: db "docking main module...", 0x0
 
 times 510 - ($-$$) db 0
