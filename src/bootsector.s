@@ -27,18 +27,19 @@ org ENTRY_POINT
     mov es, ax
     mov bx, BOOTHEADER
     call read_sector ; read sector containing the boot header
-    jnc .cont
-    mov si, failed_msg
-    call putstrnl
-    jmp .hlt
+    jc .failed
 
-.cont:
     mov si, newline
     call putstr
 
 .hlt:
     cli
     hlt
+
+.failed:
+    mov si, failed_msg
+    call putstrnl
+    jmp .hlt
 
 putstr:
 ; si: input_string
