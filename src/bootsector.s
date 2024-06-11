@@ -17,7 +17,7 @@ org ENTRY_POINT
     mov ax, 3 ; set video mode 3
     int 0x10 ; video services
 
-    mov si, loading_msg
+    mov si, reading_header_msg
     call putstr
 
     mov ch, 0 ; cylinder
@@ -74,7 +74,7 @@ boot_disk: dw 0x0000
 
 newline: db 0xA, 0xD, 0x0
 failed_msg: db "failed", 0x0
-loading_msg: db "docking main module...", 0x0
+reading_header_msg: db "reading header from disk...", 0x0
 
 times 510 - ($-$$) db 0
 magic: dw 0xaa55
