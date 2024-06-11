@@ -2,6 +2,8 @@ bits 16
 %define ENTRY_POINT 0x7c00
 %define BOOTHEADER ENTRY_POINT + 512
 
+%include "bootheader.s"
+
 org ENTRY_POINT
     jmp 0x0000:.next ; init code segment
 .next:

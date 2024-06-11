@@ -6,7 +6,7 @@ SRC		= $(SRC_DIR)/bootsector.s
 
 # compiler options
 ASM			= nasm
-ASM_FLAGS	= -f bin
+ASM_FLAGS	= -f bin -i$(SRC_DIR)
 
 # colors
 INFO	= \x1b[1;36m
