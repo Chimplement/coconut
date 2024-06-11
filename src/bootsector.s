@@ -36,11 +36,27 @@ org ENTRY_POINT
 
     mov si, checking_header_msg
     call putstr
+
     cmp WORD [BOOTHEADER + bootheader_ident.magic], BOOTHEADER_MAGIC
     jne .failed
 
     mov si, newline
     call putstr
+
+    mov si, checking_mode_msg
+    call putstr
+    
+    cmp BYTE [BOOTHEADER + bootheader_ident.mode], BOOTHEADER_MODE16
+    je .load16
+    ; cmp WORD [BOOTHEADER + bootheader_ident.mode], BOOTHEADER_MODE32
+    ; je .load32
+    ; cmp WORD [BOOTHEADER + bootheader_ident.mode], BOOTHEADER_MODE64
+    ; je .load64
+    jmp .failed
+
+.load16:
+    mov si, detected_mode16_msg
+    call putstrnl
 
 .hlt:
     cli
@@ -88,6 +104,8 @@ newline: db 0xA, 0xD, 0x0
 failed_msg: db "failed", 0x0
 reading_header_msg: db "reading header from disk...", 0x0
 checking_header_msg: db "checking header...", 0x0
+checking_mode_msg: db "checking mode...", 0x0
+detected_mode16_msg: db "detected 16 bit mode", 0x0
 
 times 510 - ($-$$) db 0
 magic: dw 0xaa55
