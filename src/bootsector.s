@@ -1,6 +1,6 @@
 bits 16
 %define ENTRY_POINT 0x7c00
-%define MAIN_MODULE ENTRY_POINT + 512
+%define BOOTHEADER ENTRY_POINT + 512
 
 org ENTRY_POINT
     jmp 0x0000:.next ; init code segment
@@ -25,8 +25,8 @@ org ENTRY_POINT
     mov cl, 2 ; sector
     mov ax, cs ; destination
     mov es, ax
-    mov bx, MAIN_MODULE
-    call read_sector ; read first sector of main module
+    mov bx, BOOTHEADER
+    call read_sector ; read sector containing the boot header
     jnc .cont
     mov si, failed_msg
     call putstrnl
