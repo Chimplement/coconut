@@ -34,6 +34,14 @@ org ENTRY_POINT
     mov si, newline
     call putstr
 
+    mov si, checking_header_msg
+    call putstr
+    cmp WORD [BOOTHEADER + bootheader_ident.magic], BOOTHEADER_MAGIC
+    jne .failed
+
+    mov si, newline
+    call putstr
+
 .hlt:
     cli
     hlt
@@ -79,6 +87,7 @@ boot_disk: dw 0x0000
 newline: db 0xA, 0xD, 0x0
 failed_msg: db "failed", 0x0
 reading_header_msg: db "reading header from disk...", 0x0
+checking_header_msg: db "checking header...", 0x0
 
 times 510 - ($-$$) db 0
 magic: dw 0xaa55

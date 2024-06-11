@@ -8,7 +8,7 @@ struc bootheader_ident
 endstruc
 
 struc bootheader_16
-    .ident: resb boot_header_ident_size
+    .ident: resb bootheader_ident_size
     .sectors: resw 1
     .orgin: resw 1
     .entry: resw 1
