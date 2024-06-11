@@ -57,6 +57,7 @@ putstr:
     ret
 
 putstrnl:
+; si: input_string
     call putstr
     mov si, newline
     call putstr
