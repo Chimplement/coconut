@@ -24,12 +24,15 @@ all: $(NAME)
 clean:
 
 fclean: clean
+	@printf '$(REMOVED)REMOVED $(NAME)$(END)\n'
 	@rm -f $(NAME)
 
 re: fclean all
 
 run: all
-	qemu-system-x86_64 -drive format=raw,file=$(NAME)
+	@cp $(NAME) disk.bin
+	@if [ -f "bootable.bin" ]; then cat bootable.bin >> disk.bin; fi
+	@qemu-system-x86_64 -drive format=raw,file=disk.bin
 
 $(NAME): $(SRC)
 	@$(ASM) $(ASM_FLAGS) -o $(NAME) $(SRC)
