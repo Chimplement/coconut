@@ -27,8 +27,9 @@ org ENTRY_POINT
     mov cl, 2 ; sector
     mov ax, cs ; destination
     mov es, ax
+    mov al, 1 ; sector count
     mov bx, BOOTHEADER
-    call read_sector ; read sector containing the boot header
+    call read_sectors ; read sector containing the boot header
     jc .failed
 
     mov si, newline
@@ -87,14 +88,14 @@ putstrnl:
     call putstr
     ret
 
-read_sector:
+read_sectors:
 ; ch: cylinder
 ; dh: head
 ; cl: sector
+; al: sector count
 ; es:bx: destination
-    mov ah, 0x2 ; read sectors
-    mov al, 1 ; sector count
     mov dl, [boot_disk]
+    mov ah, 0x2 ; read sectors
     int 0x13 ; disk services
     ret
 
