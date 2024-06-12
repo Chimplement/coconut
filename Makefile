@@ -24,7 +24,7 @@ all: $(NAME)
 clean:
 
 fclean: clean
-	@printf '$(REMOVED)REMOVED $(NAME)$(END)\n'
+	@printf '$(REMOVED)Removed $(NAME)$(END)\n'
 	@rm -f $(NAME)
 
 re: fclean all
