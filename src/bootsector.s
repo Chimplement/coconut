@@ -127,7 +127,7 @@ failed_msg: db "failed", 0x0
 reading_header_msg: db "reading header from disk...", 0x0
 checking_header_msg: db "checking header...", 0x0
 checking_mode_msg: db "checking mode...", 0x0
-reading_in_mode16_msg: db "reading in 16 bit mode...", 0x0
+reading_in_mode16_msg: db "reading in 16-bit mode...", 0x0
 jmp_msg: db "jumping to entry...", 0x0
 
 times 510 - ($-$$) db 0
