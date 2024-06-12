@@ -27,8 +27,8 @@ org ENTRY_POINT
     mov cl, 2 ; sector
     mov ax, cs ; destination
     mov es, ax
-    mov al, 1 ; sector count
     mov bx, BOOTHEADER
+    mov al, 1 ; sector count
     call read_sectors ; read sector containing the boot header
     jc .failed
 
@@ -56,8 +56,29 @@ org ENTRY_POINT
     jmp .failed
 
 .load16:
-    mov si, detected_mode16_msg
+    mov si, newline
+    call putstr
+
+    mov si, reading_in_mode16_msg
+    call putstr
+
+    mov ch, 0 ; cylinder
+    mov dh, 0 ; head
+    mov cl, 2 ; sector
+    mov ax, cs ; destination
+    mov es, ax
+    mov bx, WORD [BOOTHEADER + bootheader_16.orgin]
+    mov al, BYTE [BOOTHEADER + bootheader_16.sectors] ; sector count
+    call read_sectors ; read sectors containing the bootable code
+    jc .failed
+
+    mov si, newline
+    call putstr
+
+    mov si, jmp_msg
     call putstrnl
+
+    jmp WORD [BOOTHEADER + bootheader_16.entry]
 
 .hlt:
     cli
@@ -106,7 +127,8 @@ failed_msg: db "failed", 0x0
 reading_header_msg: db "reading header from disk...", 0x0
 checking_header_msg: db "checking header...", 0x0
 checking_mode_msg: db "checking mode...", 0x0
-detected_mode16_msg: db "detected 16 bit mode", 0x0
+reading_in_mode16_msg: db "reading in 16 bit mode...", 0x0
+jmp_msg: db "jumping to entry...", 0x0
 
 times 510 - ($-$$) db 0
 magic: dw 0xaa55
