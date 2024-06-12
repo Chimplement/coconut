@@ -14,7 +14,7 @@ org ENTRY_POINT
 
     mov sp, 0xffff ; init stack pointer
 
-    mov [boot_disk], dl ; save boot disk id
+    mov [BIOSINFO + biosinfo.boot_disk], dl ; save boot disk id
 
     mov ax, 3 ; set video mode 3
     int 0x10 ; video services
@@ -115,12 +115,10 @@ read_sectors:
 ; cl: sector
 ; al: sector count
 ; es:bx: destination
-    mov dl, [boot_disk]
+    mov dl, [BIOSINFO + biosinfo.boot_disk]
     mov ah, 0x2 ; read sectors
     int 0x13 ; disk services
     ret
-
-boot_disk: dw 0x0000
 
 newline: db 0xA, 0xD, 0x0
 failed_msg: db "failed", 0x0

@@ -1,5 +1,11 @@
 %define BOOTHEADER_MAGIC 0x800f
 
+%define BIOSINFO 0x0000
+
+struc biosinfo
+    .boot_disk: resb 1
+endstruc
+
 %define BOOTHEADER_MODE16 0x1
 
 struc bootheader_ident
