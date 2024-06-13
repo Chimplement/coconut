@@ -6,6 +6,7 @@ mode: db 0x1
 sectors: db 0x1
 orgin: dw 0x00f0
 entry: dw start
+segment: dw 0x0000
 
 start:
     mov si, msg

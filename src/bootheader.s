@@ -18,4 +18,5 @@ struc bootheader_16
     .sectors: resb 1
     .orgin: resw 1
     .entry: resw 1
+    .segment: resw 1
 endstruc
