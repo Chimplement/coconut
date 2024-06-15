@@ -65,10 +65,21 @@ org ENTRY_POINT
     mov ch, 0 ; cylinder
     mov dh, 0 ; head
     mov cl, 2 ; sector
-    mov ax, cs ; destination
+    mov ax, WORD [BOOTHEADER + bootheader_16.code_segment] ; destination
     mov es, ax
     mov bx, WORD [BOOTHEADER + bootheader_16.code_orgin]
     mov al, BYTE [BOOTHEADER + bootheader_16.code_sectors] ; sector count
+    call read_sectors ; read sectors containing the bootable code
+    jc .failed
+
+    mov ch, 0 ; cylinder
+    mov dh, 0 ; head
+    mov cl, 2 ; sector
+    add cl, BYTE [BOOTHEADER + bootheader_16.code_sectors]
+    mov ax, WORD [BOOTHEADER + bootheader_16.data_segment] ; destination
+    mov es, ax
+    mov bx, WORD [BOOTHEADER + bootheader_16.data_orgin]
+    mov al, BYTE [BOOTHEADER + bootheader_16.data_sectors] ; sector count
     call read_sectors ; read sectors containing the bootable code
     jc .failed
 
