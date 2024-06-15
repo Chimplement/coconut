@@ -1,6 +1,8 @@
 bits 16
 org 0x00f0
 
+section code vstart=0x00f0
+
 magic: dw 0x800f
 mode: db 0x1
 entry: dw start
@@ -26,4 +28,10 @@ start:
     cli
     hlt
 
+times 512 - ($-$$) db 0
+
+section data vstart=0x00f0
+
 msg: db "Hello, World!", 0x0
+
+times 512 - ($-$$) db 0
