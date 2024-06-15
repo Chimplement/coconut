@@ -67,8 +67,8 @@ org ENTRY_POINT
     mov cl, 2 ; sector
     mov ax, cs ; destination
     mov es, ax
-    mov bx, WORD [BOOTHEADER + bootheader_16.orgin]
-    mov al, BYTE [BOOTHEADER + bootheader_16.sectors] ; sector count
+    mov bx, WORD [BOOTHEADER + bootheader_16.code_orgin]
+    mov al, BYTE [BOOTHEADER + bootheader_16.code_sectors] ; sector count
     call read_sectors ; read sectors containing the bootable code
     jc .failed
 

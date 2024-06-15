@@ -3,10 +3,14 @@ org 0x00f0
 
 magic: dw 0x800f
 mode: db 0x1
-sectors: db 0x1
-orgin: dw 0x00f0
 entry: dw start
-segment: dw 0x0000
+code_segment: dw 0x0000
+code_sectors: db 1
+code_orgin: dw 0x00f0
+data_segment: dw 0x1000
+data_sectors: db 1
+data_orgin: dw 0x00f0
+stack_segment: dw 0xf000
 
 start:
     mov si, msg

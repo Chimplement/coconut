@@ -15,8 +15,12 @@ endstruc
 
 struc bootheader_16
     .ident: resb bootheader_ident_size
-    .sectors: resb 1
-    .orgin: resw 1
     .entry: resw 1
-    .segment: resw 1
+    .code_segment: resw 1
+    .code_sectors: resb 1
+    .code_orgin: resw 1
+    .data_segment: resw 1
+    .data_sectors: resb 1
+    .data_orgin: resw 1
+    .stack_segment: resw 1
 endstruc
