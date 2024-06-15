@@ -29,7 +29,7 @@ org ENTRY_POINT
     mov es, ax
     mov bx, BOOTHEADER
     mov al, 1 ; sector count
-    call read_sectors ; read sector containing the boot header
+    call read_sectors ; read sector containing the bootheader
     jc .failed
 
     mov si, newline
@@ -38,7 +38,7 @@ org ENTRY_POINT
     mov si, checking_header_msg
     call putstr
 
-    cmp WORD [BOOTHEADER + bootheader_ident.magic], BOOTHEADER_MAGIC
+    cmp WORD [BOOTHEADER + bootheader_ident.magic], BOOTHEADER_MAGIC ; check if its a bootheader
     jne .failed
 
     mov si, newline
@@ -47,7 +47,7 @@ org ENTRY_POINT
     mov si, checking_mode_msg
     call putstr
     
-    cmp BYTE [BOOTHEADER + bootheader_ident.mode], BOOTHEADER_MODE16
+    cmp BYTE [BOOTHEADER + bootheader_ident.mode], BOOTHEADER_MODE16 ; check if it should boot in 16-bit mode
     je .load16
     ; cmp WORD [BOOTHEADER + bootheader_ident.mode], BOOTHEADER_MODE32
     ; je .load32
@@ -80,16 +80,21 @@ org ENTRY_POINT
     mov es, ax
     mov bx, WORD [BOOTHEADER + bootheader_16.data_orgin]
     mov al, BYTE [BOOTHEADER + bootheader_16.data_sectors] ; sector count
-    call read_sectors ; read sectors containing the bootable code
+    call read_sectors ; read sectors containing the data
     jc .failed
 
     mov si, newline
     call putstr
 
-    mov si, jmp_msg
+    mov si, setup_segments_msg
     call putstrnl
 
-    jmp WORD [BOOTHEADER + bootheader_16.entry]
+    mov ax, WORD [BOOTHEADER + bootheader_16.data_segment]
+    mov ds, ax ; move data segment
+    mov ax, WORD [BOOTHEADER + bootheader_16.stack_segment]
+    mov ss, ax ; move stack segment
+
+    jmp DWORD [BOOTHEADER + bootheader_16.entry] ; jmp to entry ; works because entry is followed directly by the code segment
 
 .hlt:
     cli
@@ -137,7 +142,7 @@ reading_header_msg: db "reading header from disk...", 0x0
 checking_header_msg: db "checking header...", 0x0
 checking_mode_msg: db "checking mode...", 0x0
 reading_in_mode16_msg: db "reading in 16-bit mode...", 0x0
-jmp_msg: db "jumping to entry...", 0x0
+setup_segments_msg: db "moving segments...", 0x0
 
 times 510 - ($-$$) db 0
 magic: dw 0xaa55
