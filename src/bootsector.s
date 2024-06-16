@@ -142,7 +142,7 @@ reading_header_msg: db "reading header from disk...", 0x0
 checking_header_msg: db "checking header...", 0x0
 checking_mode_msg: db "checking mode...", 0x0
 reading_in_mode16_msg: db "reading in 16-bit mode...", 0x0
-setup_segments_msg: db "moving segments...", 0x0
+setup_segments_msg: db "moving segments and jumping...", 0x0
 
 times 510 - ($-$$) db 0
 magic: dw 0xaa55
