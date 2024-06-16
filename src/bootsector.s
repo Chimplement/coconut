@@ -96,14 +96,13 @@ org ENTRY_POINT
 
     jmp DWORD [BOOTHEADER + bootheader_16.entry] ; jmp to entry ; works because entry is followed directly by the code segment
 
-.hlt:
-    cli
-    hlt
-
 .failed:
     mov si, failed_msg
     call putstrnl
-    jmp .hlt
+
+.hlt:
+    cli
+    hlt
 
 putstr:
 ; si: input_string
