@@ -25,3 +25,7 @@ struc bootheader_16
     .data_orgin: resw 1
     .stack_segment: resw 1
 endstruc
+
+struc bootheader_32
+    .ident: resb bootheader_ident_size
+endstruc
