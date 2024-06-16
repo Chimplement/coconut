@@ -49,8 +49,8 @@ org ENTRY_POINT
     
     cmp BYTE [BOOTHEADER + bootheader_ident.mode], BOOTHEADER_MODE16 ; check if it should boot in 16-bit mode
     je .load16
-    ; cmp WORD [BOOTHEADER + bootheader_ident.mode], BOOTHEADER_MODE32
-    ; je .load32
+    cmp WORD [BOOTHEADER + bootheader_ident.mode], BOOTHEADER_MODE32
+    je .load32
     ; cmp WORD [BOOTHEADER + bootheader_ident.mode], BOOTHEADER_MODE64
     ; je .load64
     jmp .failed
@@ -59,7 +59,7 @@ org ENTRY_POINT
     mov si, newline
     call putstr
 
-    mov si, reading_in_mode16_msg
+    mov si, booting_in_mode16_msg
     call putstr
 
     mov ch, 0 ; cylinder
@@ -95,6 +95,15 @@ org ENTRY_POINT
     mov ss, ax ; move stack segment
 
     jmp DWORD [BOOTHEADER + bootheader_16.entry] ; jmp to entry ; works because entry is followed directly by the code segment
+
+.load32:
+    mov si, newline
+    call putstr
+
+    mov si, booting_in_mode32_msg
+    call putstr
+
+    jmp .hlt
 
 .failed:
     mov si, failed_msg
@@ -140,7 +149,8 @@ failed_msg: db "failed", 0x0
 reading_header_msg: db "reading header from disk...", 0x0
 checking_header_msg: db "checking header...", 0x0
 checking_mode_msg: db "checking mode...", 0x0
-reading_in_mode16_msg: db "reading in 16-bit mode...", 0x0
+booting_in_mode16_msg: db "booting in 16-bit mode...", 0x0
+booting_in_mode32_msg: db "booting in 32-bit mode...", 0x0
 setup_segments_msg: db "moving segments and jumping...", 0x0
 
 times 510 - ($-$$) db 0

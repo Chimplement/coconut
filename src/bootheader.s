@@ -7,6 +7,7 @@ struc biosinfo
 endstruc
 
 %define BOOTHEADER_MODE16 0x1
+%define BOOTHEADER_MODE32 0x2
 
 struc bootheader_ident
     .magic: resw 1
