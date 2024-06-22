@@ -1,5 +1,5 @@
 # Coconut
-
+Coconut is a simple single stage x86 legacy bootloader. Note that it currently only supports booting in real mode as this project was dropped in favour of making an UEFI bootloader.
 
 ## Features
 
