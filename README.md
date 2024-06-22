@@ -13,7 +13,7 @@ dd if=./coconut.bin of=<target device> bs=512 count=1
 ```
 where `<target device>` is the disk you want to write to e.g. `/dev/sda`. Be careful though as `dd` has commonly been referred to as the 'disk destroyer'.
 
-The alternative way to test it is using a virtual machine like `qemu`, which in this case the [makefile](Makefile) already handles for you. Running `make run` will start `qemu` with a disk containing Coconut concatenated with the file `bootable.bin` if it exists. The easiest way to create a `bootable.bin` is by running:
+The alternative way to test it is using a virtual machine like `qemu`, which in this case the [Makefile](Makefile) already handles for you. Running `make run` will start `qemu` with a disk containing Coconut concatenated with the file `bootable.bin` if it exists. The easiest way to create a `bootable.bin` is by running:
 ```bash
 nasm -f bin ./examples/helloworld16.s -o bootable.bin
 ```
