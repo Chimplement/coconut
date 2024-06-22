@@ -21,8 +21,8 @@ nasm -f bin ./examples/helloworld16.s -o bootable.bin
 ### Building
 Building Coconut is as easy as running make:
 ```bash
-git clone https://github.com/Chimplement/slog.git slog
-cd slog
+git clone https://github.com/Chimplement/coconut.git coconut
+cd coconut
 make
 ```
 
