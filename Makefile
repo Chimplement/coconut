@@ -1,5 +1,5 @@
 #project
-NAME	= bootport.bin
+NAME	= coconut.bin
 
 SRC_DIR	= src
 SRC		= $(SRC_DIR)/bootsector.s
